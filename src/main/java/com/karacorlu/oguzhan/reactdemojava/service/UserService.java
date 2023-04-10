@@ -36,8 +36,13 @@ public class UserService {
         return mapper.toDTO(repository.save(user));
     }
 
-    public void delete(UUID uuid) {
-        repository.deleteById(uuid);
+    public boolean delete(UUID uuid) {
+        if (repository.existsById(uuid)) {
+            repository.deleteById(uuid);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public UserDTO update(UserDTO userDTO) {
