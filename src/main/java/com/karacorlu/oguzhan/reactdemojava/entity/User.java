@@ -54,6 +54,8 @@ public class User {
         setUsername(userDTO.getUsername());
         setDisplayName(userDTO.getDisplayName());
         setPassword(userDTO.getPassword());
+        setCreatedAt(new Date());
+        setUpdatedAt(new Date());
     }
 
 }
