@@ -2,10 +2,13 @@ package com.karacorlu.oguzhan.reactdemojava.service;
 
 import com.karacorlu.oguzhan.reactdemojava.dto.UserDTO;
 import com.karacorlu.oguzhan.reactdemojava.entity.User;
+import com.karacorlu.oguzhan.reactdemojava.exceptions.UsernameAllreadyExist;
+import com.karacorlu.oguzhan.reactdemojava.exceptions.UsernameMustFull;
 import com.karacorlu.oguzhan.reactdemojava.mapper.UserMapper;
 import com.karacorlu.oguzhan.reactdemojava.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,14 @@ public class UserService {
 
     public UserDTO create(UserDTO userDTO) {
         User user = new User(userDTO);
+
+        if (userDTO.getUsername() == null || userDTO.getUsername().isEmpty()){
+            throw new UsernameMustFull();
+        }
+
+        if(repository.existsByUsername(userDTO.getUsername())){
+            throw new UsernameAllreadyExist();
+        }
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         return mapper.toDTO(repository.save(user));
     }

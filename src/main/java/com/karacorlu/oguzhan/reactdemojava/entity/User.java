@@ -43,6 +43,7 @@ public class User {
     @LastModifiedDate
     private Date updatedAt;
 
+    @Column(name = "username", updatable = false, nullable = false, unique = true)
     private String username;
 
     private String displayName;
