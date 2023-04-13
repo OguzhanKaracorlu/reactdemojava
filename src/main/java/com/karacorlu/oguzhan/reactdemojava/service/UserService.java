@@ -2,6 +2,7 @@ package com.karacorlu.oguzhan.reactdemojava.service;
 
 import com.karacorlu.oguzhan.reactdemojava.dto.UserDTO;
 import com.karacorlu.oguzhan.reactdemojava.entity.User;
+import com.karacorlu.oguzhan.reactdemojava.exceptions.DisplayNameMustFull;
 import com.karacorlu.oguzhan.reactdemojava.exceptions.UsernameAllreadyExist;
 import com.karacorlu.oguzhan.reactdemojava.exceptions.UsernameMustFull;
 import com.karacorlu.oguzhan.reactdemojava.mapper.UserMapper;
@@ -42,6 +43,10 @@ public class UserService {
 
         if (userDTO.getUsername() == null || userDTO.getUsername().isEmpty()){
             throw new UsernameMustFull();
+        }
+
+        if (userDTO.getDisplayName() == null || userDTO.getDisplayName().isEmpty()){
+            throw new DisplayNameMustFull();
         }
 
         if(repository.existsByUsername(userDTO.getUsername())){
